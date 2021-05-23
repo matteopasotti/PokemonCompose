@@ -1,11 +1,10 @@
 package com.matteopasotti.pokemoncompose.api
 
-import com.matteopasotti.pokemoncompose.api.response.PokemonListResponse
+import com.matteopasotti.pokemoncompose.model.Pokemon
 import retrofit2.http.GET
-import retrofit2.http.Query
 
 interface PokemonApiInterface {
 
-    @GET("pokemon")
-    suspend fun getPokemonList(@Query("limit") limit: Int): PokemonListResponse
+    @GET("pokemon_list")
+    suspend fun getPokemonList(): List<Pokemon>
 }

@@ -1,6 +1,7 @@
 package com.matteopasotti.pokemoncompose
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -17,9 +18,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Observer
 import com.matteopasotti.pokemoncompose.ui.theme.PokemonComposeTheme
+import com.matteopasotti.pokemoncompose.view.MainViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: MainViewModel by viewModel()
 
     private val descriptionHolder =
         "Bulbasaur (Japanese: フシギダネ Fushigidane) is a dual-type Grass/Poison Pokémon introduced in Generation I." +
@@ -27,6 +33,15 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.pokemonList.observe(this, Observer {
+            if(it!= null) {
+                Log.d("", "")
+            }
+        })
+
+        viewModel.getPokemonList()
+
         setContent {
             BaseView {
                 PokemonCard(name = "Bulbasaur", description = descriptionHolder)
