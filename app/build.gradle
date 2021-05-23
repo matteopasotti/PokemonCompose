@@ -65,7 +65,7 @@ dependencies {
 
     //KOIN
     // Koin for Jetpack Compose (unstable version)
-    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+    //implementation "io.insert-koin:koin-androidx-compose:$koin_version"
     // Koin main features for Android (Scope,ViewModel ...)
     implementation "io.insert-koin:koin-android:$koin_version"
 
