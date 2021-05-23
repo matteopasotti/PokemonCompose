@@ -2,6 +2,9 @@ package com.matteopasotti.pokemoncompose
 
 import android.app.Application
 import com.matteopasotti.pokemoncompose.di.apiModule
+import com.matteopasotti.pokemoncompose.di.repoModule
+import com.matteopasotti.pokemoncompose.di.useCasesModule
+import com.matteopasotti.pokemoncompose.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
@@ -13,7 +16,7 @@ open class MyApplication : Application() {
      * Main dependency component.
      * This will create and provide required dependencies with sub dependencies.
      */
-    private val appComponent = listOf(apiModule)
+    private val appComponent = listOf(apiModule, repoModule, useCasesModule, viewModelModule)
 
     override fun onCreate() {
         super.onCreate()
