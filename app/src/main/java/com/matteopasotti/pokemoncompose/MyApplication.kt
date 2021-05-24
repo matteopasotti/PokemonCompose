@@ -8,13 +8,12 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 open class MyApplication : Application() {
-
     /**
      * Main dependency component.
      * This will create and provide required dependencies with sub dependencies.
      */
     private val appComponent =
-        listOf(viewModelModule, apiModule, repoModule, useCasesModule)
+        listOf(databaseModule, viewModelModule, apiModule, repoModule, useCasesModule)
 
     override fun onCreate() {
         super.onCreate()

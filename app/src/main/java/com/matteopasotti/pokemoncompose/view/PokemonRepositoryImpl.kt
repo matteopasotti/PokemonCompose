@@ -1,7 +1,6 @@
 package com.matteopasotti.pokemoncompose.view
 
 import com.matteopasotti.pokemoncompose.api.PokemonApiInterface
-import com.matteopasotti.pokemoncompose.database.dao.PokemonDao
 import com.matteopasotti.pokemoncompose.model.Pokemon
 import org.koin.core.component.KoinComponent
 
