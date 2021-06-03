@@ -6,68 +6,89 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.MaterialTheme.typography
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Observer
+import com.google.accompanist.coil.rememberCoilPainter
+import com.matteopasotti.pokemoncompose.model.Pokemon
 import com.matteopasotti.pokemoncompose.ui.theme.PokemonComposeTheme
 import com.matteopasotti.pokemoncompose.view.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.compose.runtime.livedata.observeAsState
+
 
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModel()
 
-    private val descriptionHolder =
-        "Bulbasaur (Japanese: フシギダネ Fushigidane) is a dual-type Grass/Poison Pokémon introduced in Generation I." +
-                " It evolves into Ivysaur starting at level 16, which evolves into Venusaur starting at level 32."
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.pokemonList.observe(this, Observer {
-            if(it!= null) {
-                Log.d("", "")
-            }
-        })
-
-        viewModel.getPokemonList()
-
         setContent {
             BaseView {
-                PokemonCard(name = "Bulbasaur", description = descriptionHolder)
+                PokemonListScreen(viewModel = viewModel)
             }
         }
+
+        viewModel.getPokemonList()
     }
 }
 
 @Composable
 fun BaseView(content: @Composable() () -> Unit) {
     PokemonComposeTheme {
-        content()
+        Surface {
+            content()
+        }
     }
 }
 
 @Composable
-fun PokemonCard(name: String, description: String) {
+fun PokemonListScreen(viewModel: MainViewModel) {
+    val items: List<Pokemon> by viewModel.pokemonList.observeAsState(initial = listOf())
+    PokemonList(pokemonList = items)
+}
+
+@Composable
+fun PokemonList(pokemonList: List<Pokemon>) {
+    Column {
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(top = 8.dp)
+        ) {
+            items(items = pokemonList) {
+                PokemonCard(
+                    name = it.name!!,
+                    description = it.xdescription!!,
+                    imageUrl = it.imageurl!!
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun PokemonCard(name: String, description: String, imageUrl: String) {
     MaterialTheme {
         Column(modifier = Modifier.padding(16.dp)) {
             Image(
-                painter = painterResource(id = R.drawable.header),
-                contentDescription = "Header",
+                painter = rememberCoilPainter(imageUrl),
+                contentDescription = name,
                 modifier = Modifier
                     .height(180.dp)
                     .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(4.dp)),
+                    .clip(RoundedCornerShape(4.dp)),
                 contentScale = ContentScale.Crop
             )
             Spacer(Modifier.height(16.dp))
@@ -84,10 +105,4 @@ fun PokemonCard(name: String, description: String) {
         }
     }
 
-}
-
-@Preview
-@Composable
-fun Preview() {
-    PokemonCard(name = "Bulbasaur", description = "descr")
 }

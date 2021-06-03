@@ -4,5 +4,5 @@ import com.matteopasotti.pokemoncompose.model.Pokemon
 
 class PokemonListUseCase(private val repository: PokemonRepository) {
 
-    suspend fun getPokemonList(limit: Int): List<Pokemon>? = repository.getPokemonList(limit)
+    suspend fun getPokemonList(): List<Pokemon>? = repository.getPokemonList()
 }

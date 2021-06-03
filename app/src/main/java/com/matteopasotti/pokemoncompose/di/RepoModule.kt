@@ -5,5 +5,5 @@ import com.matteopasotti.pokemoncompose.view.PokemonRepositoryImpl
 import org.koin.dsl.module
 
 val repoModule = module {
-    single<PokemonRepository> { PokemonRepositoryImpl(apiService = get()) }
+    single<PokemonRepository> { PokemonRepositoryImpl(apiService = get(), pokemonDao = get()) }
 }

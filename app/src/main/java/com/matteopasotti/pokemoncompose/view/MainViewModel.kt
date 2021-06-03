@@ -15,7 +15,7 @@ class MainViewModel(private val pokemonListUseCase: PokemonListUseCase): ViewMod
 
     fun getPokemonList() {
         viewModelScope.launch(Dispatchers.IO) {
-            _pokemonList.postValue(pokemonListUseCase.getPokemonList(20))
+            _pokemonList.postValue(pokemonListUseCase.getPokemonList())
         }
     }
 }
